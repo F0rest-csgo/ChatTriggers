@@ -29,14 +29,12 @@ public void OnPluginStart() {
 
 public Action OnClientSayCommand(int client, const char[] command, const char[] arg) {
 	if (IsPlayer(client)) {
-		char SilentTrigger[8];
-		GetConVarString(g_SilentTriggerCVar, SilentTrigger, sizeof(SilentTrigger));
 		int index = g_NewTriggers.FindString(arg);
 		char oldTrigger[16];
 		if(index == -1) return Plugin_Continue;
 
 		g_ReplaceTriggers.GetString(index, oldTrigger, sizeof(oldTrigger));
-		FakeClientCommandEx(client, "say %s%s", SilentTrigger, oldTrigger);
+		ClientCommand(client, "sm_%s",  oldTrigger);
 		if(GetConVarBool(g_SilentModeEnabledCVar)) return Plugin_Handled;
 		else return Plugin_Continue;
 	}
